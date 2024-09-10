@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: task
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+      - /Users/similization/Programming/python/Task2024/data:/data
+
+volumes:
+  db:
+    driver: local

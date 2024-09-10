@@ -1,0 +1,10 @@
+database:
+  host: "localhost"
+  port: 5432
+  user: "usr"
+  password: "pass"
+  database: "task"
+
+server:
+  host: "127.0.0.1"
+  port: 8080
