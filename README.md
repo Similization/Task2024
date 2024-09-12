@@ -3,7 +3,7 @@
 Сначала клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/ваш-пользователь/myapp.git
+git clone https://github.com/Similization/Task2024.git
 cd myapp
 ```
 ## 2. Настройка конфигурации
