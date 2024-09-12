@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from config import Config, ServerConfig, DatabaseConfig
 
 
-# Создаем фикстуру для тестовых данных конфигурации
 @pytest.fixture
 def sample_config_file(tmp_path):
     config_data = {

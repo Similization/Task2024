@@ -3,7 +3,6 @@ import sys
 import pytest
 from unittest.mock import AsyncMock, patch
 
-# Добавляем корневую директорию проекта в PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from config import DatabaseConfig
