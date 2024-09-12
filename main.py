@@ -10,14 +10,11 @@ app = FastAPI()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Действие при запуске приложения (подключение к базе данных)
     await database.connect_to_db()
     yield
-    # Действие при завершении приложения (отключение от базы данных)
     await database.disconnect()
 
 
-# Создание приложения FastAPI с использованием lifespan событий
 app = FastAPI(lifespan=lifespan)
 
 
@@ -31,35 +28,29 @@ async def find_by_text(text: str):
     LIMIT 20;
     """
     try:
-        # Выполняем запрос и передаем параметр text
-        result = await database.execute_query(query, f"%{text}%")
+        result = await database.execute_query(query, text)
 
         if not result:
             raise HTTPException(status_code=404, detail="Document not found")
 
-        # Возвращаем id всех найденных записей
-        ids = [record["id"] for record in result]
-        return {"ids": ids}
+        return result
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.delete("/{id}")
-async def find_by_text(id: int):
+async def delete_document(id: int):
     query = """
     DELETE FROM task.document WHERE id = $1
     """
     try:
-        # Выполняем запрос и передаем параметр text
-        result = await database.execute_query(query, f"%{id}%")
+        result = await database.execute_query(query, id)
 
-        if not result:
+        if result.startswith("DELETE 0"):
             raise HTTPException(status_code=404, detail="Document not found")
 
-        # Возвращаем id всех найденных записей
-        ids = [record["id"] for record in result]
-        return {"ids": ids}
+        return {"detail": "Document deleted successfully"}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

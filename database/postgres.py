@@ -21,7 +21,6 @@ class Database:
             print("Уже подключены к базе данных")
 
     async def disconnect(self):
-        """Отключаемся от базы данных PostgreSQL."""
         if self.connection:
             await self.connection.close()
             print("Соединение с базой данных закрыто")
@@ -30,13 +29,7 @@ class Database:
             print("Соединение уже закрыто")
 
     async def execute_query(self, query: str, *args):
-        """Выполняем SQL-запрос и возвращаем результат."""
-        if self.connection is None:
-            raise Exception("Нет подключения к базе данных.")
-
-        try:
-            result = await self.connection.fetch(query, *args)
-            return result
-        except Exception as e:
-            print(f"Ошибка при выполнении запроса: {e}")
-            return None
+        if query.strip().startswith("SELECT"):
+            return await self.connection.fetch(query, *args)
+        else:
+            return await self.connection.execute(query, *args)
